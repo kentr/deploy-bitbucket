@@ -33,7 +33,11 @@ class DeployBitbucket
 
             self::$config = $this->getConfig($configFile);
 
-            $postData = isset($_POST['payload']) ? $_POST['payload'] : false;
+            if ( isset($_POST['payload']) ) { // old method
+              $postData = $_POST['payload'];
+            } else { // new method
+              $postData = json_decode(file_get_contents('php://input'));
+            }
 
             if ($postData) {
                 if ($_SERVER['HTTP_USER_AGENT'] !== 'Bitbucket.org') {
