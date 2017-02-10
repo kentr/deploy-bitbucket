@@ -165,7 +165,7 @@ class DeployBitbucket
             }
 
             if (self::$config->logging->logPayloadData) {
-                $this->log('Payload data as follows' . PHP_EOL . serialize($_POST['payload']));
+                $this->log('Payload data as follows' . PHP_EOL . serialize($this->payload));
             }
 
             if (self::$config->logging->logServerRequest) {
