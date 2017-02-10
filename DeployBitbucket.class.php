@@ -40,7 +40,7 @@ class DeployBitbucket
             }
 
             if ($postData) {
-                if ($_SERVER['HTTP_USER_AGENT'] !== 'Bitbucket.org') {
+                if ($_SERVER['HTTP_USER_AGENT'] !== 'Bitbucket-Webhooks/2.0') {
                     header("HTTP/1.1 403 Forbidden");
                     throw new Exception('Unattended access with user agent ' . $_SERVER['HTTP_USER_AGENT']);
                 }
