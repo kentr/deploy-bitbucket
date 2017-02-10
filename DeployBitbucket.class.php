@@ -97,12 +97,12 @@ class DeployBitbucket
                         if ($site->branch === $branchName) {
 
                             // Check if user is authorized to deploy this branch to server
-                            if (in_array($this->payload->user, $site->authorizedUsers)) {
+                            if (in_array($this->payload->actor->username, $site->authorizedUsers)) {
 
                                 // Collect matched branch names in both config file and push data
                                 $matchedBranchNames[] = $branchName;
                             } else {
-                                throw new Exception('User ' . $this->payload->user . ' is not authorized to deploy \'' . $site->name . '\' site');
+                                throw new Exception('User ' . $this->payload->actor->username . ' is not authorized to deploy \'' . $site->name . '\' site');
                             }
                         }
                     }
@@ -138,7 +138,7 @@ class DeployBitbucket
                 throw new Exception('PHP exec() function is not enabled on the server. Please see README file for instructions.');
             }
 
-            $this->log('Attempting deployment for ' . $site->branch . ' by ' . $this->payload->user);
+            $this->log('Attempting deployment for ' . $site->branch . ' by ' . $this->payload->actor->username);
 
             // Fetch repository
             exec('cd ' . $site->directory . ' && ' . self::$config->gitPath . ' fetch', $output);
