@@ -36,7 +36,7 @@ class DeployBitbucket
             if ( isset($_POST['payload']) ) { // old method
               $postData = $_POST['payload'];
             } else { // new method
-              $postData = json_decode(file_get_contents('php://input'));
+              $postData = file_get_contents('php://input');
             }
 
             if ($postData) {
@@ -82,12 +82,12 @@ class DeployBitbucket
         try {
 
             // Check if there are any commits in push data
-            if (count($this->payload->commits) > 0) {
+            if (count($this->payload->push->changes) > 0) {
 
                 $pushedBranchNames = [];
                 $matchedBranchNames = [];
 
-                foreach ($this->payload->commits as $commit) {
+                foreach ($this->payload->push->changes as $commit) {
 
                     // Collect branch names from push data
                     $pushedBranchNames[] = $commit->branch;
