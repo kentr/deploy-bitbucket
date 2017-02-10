@@ -90,16 +90,17 @@ class DeployBitbucket
                 foreach ($this->payload->push->changes as $commit) {
 
                     // Collect branch names from push data
-                    $pushedBranchNames[] = $commit->branch;
+                    $branchName = $commit->new->name;
+                    $pushedBranchNames[] = $branchName;
 
                     foreach (self::$config->sites as $site) {
-                        if ($site->branch === $commit->branch) {
+                        if ($site->branch === $branchName) {
 
                             // Check if user is authorized to deploy this branch to server
                             if (in_array($this->payload->user, $site->authorizedUsers)) {
 
                                 // Collect matched branch names in both config file and push data
-                                $matchedBranchNames[] = $commit->branch;
+                                $matchedBranchNames[] = $branchName;
                             } else {
                                 throw new Exception('User ' . $this->payload->user . ' is not authorized to deploy \'' . $site->name . '\' site');
                             }
